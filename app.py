@@ -1,89 +1,82 @@
+import os
 from flask import Flask, render_template, request, redirect
 import sqlite3
 
 app = Flask(__name__)
 
-# ... Database connection setup ...
-
 def create_orders_table():
-    conn = sqlite3.connect('logistics.db')  # Example database name
-    cursor = conn.cursor()
+    db_path = os.path.abspath('logistics.db')
 
-    cursor.execute("""
-        CREATE TABLE orders (
-            order_id INTEGER PRIMARY KEY AUTOINCREMENT,
-            supermarket_id INTEGER, 
-            order_date DATETIME,
-            order_status TEXT,
-            delivery_date DATETIME,
-            FOREIGN KEY(supermarket_id) REFERENCES supermarkets(supermarket_id) 
-        )
-    """)
-    conn.commit()
-    conn.close()
+    with sqlite3.connect(db_path) as conn:
+        cursor = conn.cursor()
+        cursor.execute("""
+            CREATE TABLE orders (
+                order_id INTEGER PRIMARY KEY AUTOINCREMENT,
+                supermarket_id INTEGER, 
+                order_date DATETIME,
+                order_status TEXT,
+                delivery_date DATETIME,
+                FOREIGN KEY(supermarket_id) REFERENCES supermarkets(supermarket_id) 
+            )
+        """)
 
 def create_supermarkets_table():
-    conn = sqlite3.connect('logistics.db')
-    cursor = conn.cursor()
-    cursor.execute("""
-        CREATE TABLE supermarkets (
-            supermarket_id INTEGER PRIMARY KEY AUTOINCREMENT,
-            name TEXT
-        )
-    """)
-    conn.commit()
-    conn.close()
+    db_path = os.path.abspath('logistics.db')
+
+    with sqlite3.connect(db_path) as conn:
+        cursor = conn.cursor()
+        cursor.execute("""
+            CREATE TABLE supermarkets (
+                supermarket_id INTEGER PRIMARY KEY AUTOINCREMENT,
+                name TEXT
+            )
+        """)
 
 def get_recent_orders():
-    conn = sqlite3.connect('your_database.db')  # Replace with your database name
-    cursor = conn.cursor()
+    db_path = os.path.abspath('logistics.db')
 
-    cursor.execute("SELECT order_id, supermarket_name, order_date FROM orders ORDER BY order_date DESC LIMIT 10")  # Adjust the query if needed
-    recent_orders = cursor.fetchall()
-
-    conn.close()
+    with sqlite3.connect(db_path) as conn:
+        cursor = conn.cursor()
+        cursor.execute("SELECT order_id, supermarkets.name, order_date FROM orders JOIN supermarkets ON orders.supermarket_id = supermarkets.supermarket_id ORDER BY order_date DESC LIMIT 10")
+        recent_orders = cursor.fetchall()
     return recent_orders
 
 def add_order_to_database(order_data):
-    conn = sqlite3.connect('your_database.db')
-    cursor = conn.cursor()
+    db_path = os.path.abspath('logistics.db')
 
-    # Assuming order_data contains fields like 'supermarket_id', 'items', etc.
-    cursor.execute(
-        "INSERT INTO orders (supermarket_id, items, order_date) VALUES (?, ?, ?)",
-        (order_data['supermarket_id'], order_data['items'], order_data['order_date'])
-    )
-    conn.commit()
-    conn.close()
+    with sqlite3.connect(db_path) as conn:
+        cursor = conn.cursor()
+        cursor.execute(
+            "INSERT INTO orders (supermarket_id, items, order_date) VALUES (?, ?, ?)",
+            (order_data['supermarket_id'], order_data['items'], order_data['order_date'])
+        )
 
 def get_supermarkets():
-    conn = sqlite3.connect('your_database.db')
-    cursor = conn.cursor()
+    db_path = os.path.abspath('logistics.db')
 
-    cursor.execute("SELECT id, name FROM supermarkets")
-    supermarkets = cursor.fetchall()
-
-    conn.close()
+    with sqlite3.connect(db_path) as conn:
+        cursor = conn.cursor()
+        cursor.execute("SELECT supermarket_id, name FROM supermarkets")  # Use supermarket_id here
+        supermarkets = cursor.fetchall()
     return supermarkets
-
 
 @app.route('/')
 def index():
-    # Fetch order summaries from the database
-    orders = get_recent_orders()  # Implement this function
+    orders = get_recent_orders()
     return render_template('index.html', orders=orders)
 
 @app.route('/new_order', methods=['GET', 'POST'])
 def new_order():
     if request.method == 'POST':
-        # Process order data from the form
-        add_order_to_database(request.form)  # Implement this function
+        add_order_to_database(request.form)
         return redirect('/')
     else:
-        supermarkets = get_supermarkets()  # Implement this function
+        supermarkets = get_supermarkets()
         return render_template('order_form.html', supermarkets=supermarkets)
 
-# ... Routes for order tracking, etc.
-
 if __name__ == '__main__':
+    # Optionally call table creation functions here
+    create_orders_table()
+    create_supermarkets_table()  
+
     app.run(debug=True) 
