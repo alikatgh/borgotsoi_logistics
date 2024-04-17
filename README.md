@@ -1,5 +1,5 @@
 # Borgotsoi Logistics System
-A simple system to keep track of deliveries. 
+A simple system to keep track of deliveries for small and medium businesses. 
 
 # A roadmap
 
