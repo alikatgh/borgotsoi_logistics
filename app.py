@@ -5,6 +5,39 @@ app = Flask(__name__)
 
 # ... Database connection setup ...
 
+def get_recent_orders():
+    conn = sqlite3.connect('your_database.db')  # Replace with your database name
+    cursor = conn.cursor()
+
+    cursor.execute("SELECT order_id, supermarket_name, order_date FROM orders ORDER BY order_date DESC LIMIT 10")  # Adjust the query if needed
+    recent_orders = cursor.fetchall()
+
+    conn.close()
+    return recent_orders
+
+def add_order_to_database(order_data):
+    conn = sqlite3.connect('your_database.db')
+    cursor = conn.cursor()
+
+    # Assuming order_data contains fields like 'supermarket_id', 'items', etc.
+    cursor.execute(
+        "INSERT INTO orders (supermarket_id, items, order_date) VALUES (?, ?, ?)",
+        (order_data['supermarket_id'], order_data['items'], order_data['order_date'])
+    )
+    conn.commit()
+    conn.close()
+
+def get_supermarkets():
+    conn = sqlite3.connect('your_database.db')
+    cursor = conn.cursor()
+
+    cursor.execute("SELECT id, name FROM supermarkets")
+    supermarkets = cursor.fetchall()
+
+    conn.close()
+    return supermarkets
+
+
 @app.route('/')
 def index():
     # Fetch order summaries from the database
