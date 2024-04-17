@@ -12,3 +12,9 @@ A simple system to keep track of deliveries for small and medium businesses.
 ### Tech
 
 The app will be entirely written in Gemini with super simple tweaks from my side, I just don't know programming.
+
+### Stack
+
+- Pure HTML/CSS
+- Flask
+- SQlite
