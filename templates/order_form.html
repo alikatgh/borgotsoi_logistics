@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>New Order</title>
+</head>
+<body>
+    <h1>Place New Order</h1>
+    <form method="POST">
+        <label for="supermarket">Supermarket:</label>
+        <select name="supermarket_id" id="supermarket">
+            {% for supermarket in supermarkets %}
+            <option value="{{ supermarket[0] }}">{{ supermarket[1] }}</option>
+            {% endfor %}
+        </select>
+
+        <label for="order_date">Order Date:</label>
+        <input type="date" name="order_date" id="order_date">
+
+        <button type="submit">Submit Order</button>
+    </form>
+</body>
+</html>
