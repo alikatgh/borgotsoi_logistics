@@ -3,7 +3,11 @@ A simple system to keep track of deliveries.
 
 # A roadmap
 
-The roadmap will follow soon. 
+- Add simple log in page
+- Add simple "Add delivery" page
+  - Add a menu to choose the location and date and number of dumblings and type of dumplings
+- Add simple "Deliveries" page
+- Add simple "Extract as file" button in "Deliveries" page 
 
 ### Tech
 
