@@ -17,4 +17,4 @@ The app will be entirely written in Gemini with super simple tweaks from my side
 
 - Pure HTML/CSS
 - Flask
-- SQlite
+- SQLite
