@@ -5,6 +5,23 @@ app = Flask(__name__)
 
 # ... Database connection setup ...
 
+def create_orders_table():
+    conn = sqlite3.connect('logistics.db')  # Example database name
+    cursor = conn.cursor()
+
+    cursor.execute("""
+        CREATE TABLE orders (
+            order_id INTEGER PRIMARY KEY AUTOINCREMENT,
+            supermarket_id INTEGER, 
+            order_date DATETIME,
+            order_status TEXT,
+            delivery_date DATETIME,
+            FOREIGN KEY(supermarket_id) REFERENCES supermarkets(supermarket_id) 
+        )
+    """)
+    conn.commit()
+    conn.close()
+
 def get_recent_orders():
     conn = sqlite3.connect('your_database.db')  # Replace with your database name
     cursor = conn.cursor()
