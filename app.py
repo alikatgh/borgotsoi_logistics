@@ -22,6 +22,18 @@ def create_orders_table():
     conn.commit()
     conn.close()
 
+def create_supermarkets_table():
+    conn = sqlite3.connect('logistics.db')
+    cursor = conn.cursor()
+    cursor.execute("""
+        CREATE TABLE supermarkets (
+            supermarket_id INTEGER PRIMARY KEY AUTOINCREMENT,
+            name TEXT
+        )
+    """)
+    conn.commit()
+    conn.close()
+
 def get_recent_orders():
     conn = sqlite3.connect('your_database.db')  # Replace with your database name
     cursor = conn.cursor()
