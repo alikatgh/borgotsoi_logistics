@@ -62,6 +62,7 @@ def get_recent_orders():
     return recent_orders
 
 def add_order_to_database(order_data):
+    print("add_order_to_database function started")
     db_path = os.path.abspath('logistics.db')
 
     try:
