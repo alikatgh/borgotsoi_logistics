@@ -73,7 +73,9 @@ def add_order_to_database(order_data):
                 (order_data['supermarket_id'], order_data['items'], order_data['order_date'], order_data['delivery_date'], 'Pending') 
             )
             conn.commit()
+            print("Order Saved to Database") # Add this line
     except sqlite3.Error as e:
+        print(f"Database error: {e}") 
         flash(f"Database error: {e}", "error") 
         return False 
     else:
