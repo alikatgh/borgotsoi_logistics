@@ -1,0 +1,29 @@
+Folder PATH listing
+Volume serial number is 96FD-E8DF
+C:.
+│   app.py
+│   config.py
+│   folderStructure.txt
+│   initial_formulas.txt
+│   LICENSE
+│   listOfFiles.txt
+│   logistics.db
+│   README.md
+│   requirements.txt
+│   setup_database.py
+│   tree.txt
+│   your_database.db
+│   
+├───templates
+│   │   index.html
+│   │   order_form.html
+│   │   track_order.html
+│   │   
+│   └───static
+│           main.css
+│           script.js
+│           
+└───__pycache__
+        app.cpython-310.pyc
+        app.cpython-311.pyc
+        

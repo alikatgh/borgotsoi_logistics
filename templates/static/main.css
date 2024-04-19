@@ -1,0 +1,42 @@
+/* General Styles */
+body {
+    font-family: Arial, sans-serif;
+}
+
+table {
+    width: 100%; 
+    border-collapse: collapse;
+}
+
+td, th {
+    border: 1px solid #ddd; 
+    padding: 8px;
+}
+
+/* Responsive Styles - Using Media Queries */
+@media (max-width: 600px) { 
+    table {
+        font-size: 0.8em; /* Reduce table font size on smaller screens */
+    }
+
+    table thead {
+        display: none; /* Hide table headers on small screens */
+    }
+
+    table tr {
+        display: block;
+        margin-bottom: 15px;
+    }
+
+    table td {
+        display: block;
+        text-align: right; 
+    }
+
+    table td:before { 
+        content: attr(data-label); /* Use data-label attribute to create labels */
+        font-weight: bold;
+        display: inline-block;
+        width: 30%; /* Adjust as needed */
+    }
+}

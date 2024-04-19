@@ -2,28 +2,32 @@
 <html>
 <head>
     <title>Dumpling Logistics</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"> 
+    <link rel="stylesheet" href="{{ url_for('static', filename='main.css') }}"> 
 </head>
 <body>
     <h1>Recent Orders</h1>
 
-    <table>
-        <thead>
-            <tr>
-                <th>Order ID</th>
-                <th>Supermarket</th>
-                <th>Order Date</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for order in orders %}
-            <tr>
-                <td>{{ order[0] }}</td>  
-                <td>{{ order[1] }}</td>  
-                <td>{{ order[2] }}</td>  
-            </tr>
-            {% endfor %} 
-        </tbody>
-    </table>
+    <div class="table-container"> 
+        <table>
+            <thead>
+                <tr>
+                    <th>Order ID</th>
+                    <th>Supermarket</th>
+                    <th>Order Date</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for order in orders %}
+                <tr>
+                    <td>{{ order[0] }}</td> 
+                    <td>{{ order[1] }}</td> 
+                    <td>{{ order[2] }}</td> 
+                </tr>
+                {% endfor %} 
+            </tbody>
+        </table>
+    </div>
 
     <a href="{{ url_for('new_order') }}">Place New Order</a>
 </body>

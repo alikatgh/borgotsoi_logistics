@@ -5,9 +5,10 @@ from flask import flash
 import datetime
 from flask_login import LoginManager, UserMixin, login_user, logout_user
 from werkzeug.security import generate_password_hash, check_password_hash # For password handling
+from config import SECRET_KEY  # Import SECRET_KEY from config.py
 
 app = Flask(__name__)
-app.secret_key = 'some_super_secret_key'  # Replace with a secure key
+app.config['SECRET_KEY'] = SECRET_KEY  # Replace with a secure key
 
 # ... your database functions
 
