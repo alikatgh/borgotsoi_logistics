@@ -6,34 +6,6 @@ import datetime
 
 app = Flask(__name__)
 
-def create_orders_table():
-    db_path = os.path.abspath('logistics.db')
-
-    with sqlite3.connect(db_path) as conn:
-        cursor = conn.cursor()
-        cursor.execute("""
-            CREATE TABLE orders (
-                order_id INTEGER PRIMARY KEY AUTOINCREMENT,
-                supermarket_id INTEGER, 
-                order_date DATETIME,
-                order_status TEXT,
-                delivery_date DATETIME,
-                FOREIGN KEY(supermarket_id) REFERENCES supermarkets(supermarket_id) 
-            )
-        """)
-
-def create_supermarkets_table():
-    db_path = os.path.abspath('logistics.db')
-
-    with sqlite3.connect(db_path) as conn:
-        cursor = conn.cursor()
-        cursor.execute("""
-            CREATE TABLE supermarkets (
-                supermarket_id INTEGER PRIMARY KEY AUTOINCREMENT,
-                name TEXT
-            )
-        """)
-
 def get_recent_orders():
     db_path = os.path.abspath('logistics.db')
 
@@ -115,8 +87,4 @@ def new_order():
         return render_template('order_form.html', supermarkets=supermarkets)
 
 if __name__ == '__main__':
-    # Optionally call table creation functions here
-    create_orders_table()
-    create_supermarkets_table()  
-
     app.run(debug=True) 
