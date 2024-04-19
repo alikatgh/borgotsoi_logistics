@@ -67,12 +67,12 @@ def add_order_to_database(order_data):
     try:
         with sqlite3.connect(db_path) as conn:
             cursor = conn.cursor()
-            print("Order data received:", order_data)  # Place the line here
+            print("Order data received:", order_data) 
             cursor.execute(
                 "INSERT INTO orders (supermarket_id, items, order_date, delivery_date, delivery_status) VALUES (?, ?, ?, ?, ?)",
                 (order_data['supermarket_id'], order_data['items'], order_data['order_date'], order_data['delivery_date'], 'Pending') 
             )
-            conn.commit()
+            conn.commit()  
             print("Order Saved to Database") # Add this line
     except sqlite3.Error as e:
         print(f"Database error: {e}") 
