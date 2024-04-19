@@ -3,8 +3,53 @@ from flask import Flask, render_template, request, redirect
 import sqlite3
 from flask import flash
 import datetime
+from flask_login import LoginManager, UserMixin, login_user, logout_user
+from werkzeug.security import generate_password_hash, check_password_hash # For password handling
 
 app = Flask(__name__)
+app.secret_key = 'some_super_secret_key'  # Replace with a secure key
+
+# ... your database functions
+
+login_manager = LoginManager()
+login_manager.init_app(app)
+
+class User(UserMixin):
+    def __init__(self, user_id, username):
+        self.id = user_id
+        self.username = username
+
+    def set_password(self, password):
+        """Hashes the password for secure storage"""
+        self.password_hash = generate_password_hash(password)
+
+    def check_password(self, password):
+        """Checks a password against the stored hash"""
+        return check_password_hash(self.password_hash, password)
+
+    @classmethod  # Add a classmethod for loading from the database
+    def get_by_username(cls, username):
+        db_path = os.path.abspath('logistics.db')
+        with sqlite3.connect(db_path) as conn:
+            cursor = conn.cursor()
+            result = cursor.execute("""
+                SELECT * FROM users WHERE username = ?
+            """, (username,)).fetchone()  
+            if result:
+                return cls(*result)  # Create a User object from the row
+            return None
+
+@login_manager.user_loader
+def load_user(user_id):
+    db_path = os.path.abspath('logistics.db')
+    with sqlite3.connect(db_path) as conn:
+        cursor = conn.cursor()
+        result = cursor.execute("""
+            SELECT * FROM users WHERE user_id = ?
+        """, (user_id,)).fetchone() 
+        if result:
+            return User(*result) 
+        return None
 
 def get_recent_orders():
     db_path = os.path.abspath('logistics.db')
