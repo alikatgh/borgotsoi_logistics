@@ -100,28 +100,18 @@ def index():
 @app.route('/new_order', methods=['GET', 'POST'])
 def new_order():
     if request.method == 'POST':
+        # Input Extraction
         supermarket_id = request.form.get('supermarket_id')
         items = request.form.get('items')
         order_date_str = request.form.get('order_date')
         delivery_date_str = request.form.get('delivery_date')
+
         # Check for required fields
         if not all([supermarket_id, items, order_date_str, delivery_date_str]): 
             flash("Please fill in all required fields.", "error")
-            return redirect('/new_order')        
-        try:  
-          # Convert date strings to datetime objects
-            order_date = datetime.datetime.strptime(order_date_str, '%Y-%m-%d').date()
-            delivery_date = datetime.datetime.strptime(delivery_date_str, '%Y-%m-%d').date()
-        except ValueError:
-            flash("Invalid date format. Please use YYYY-MM-DD.", "error")
-            return redirect('/new_order')
-        # Input Validation
-        # Check for required fields
-        if not all([supermarket_id, items, order_date_str]):
-            flash("Please fill in all required fields.", "error")
-            return redirect('/new_order')
+            return redirect('/new_order') 
 
-        # Validate date formats
+        # Validate date formats and convert to datetime objects
         try:
             order_date = datetime.datetime.strptime(order_date_str, '%Y-%m-%d').date()
             delivery_date = datetime.datetime.strptime(delivery_date_str, '%Y-%m-%d').date()
@@ -130,6 +120,7 @@ def new_order():
             return redirect('/new_order')
 
         # Additional validations you can add (e.g., supermarket_id exists, dates are in the future)
+        # ...
 
         # Process order submission
         order_data = {
@@ -138,9 +129,12 @@ def new_order():
             'order_date': order_date,
             'delivery_date': delivery_date
         }
-        if not add_order_to_database(order_data):
-            return redirect('/new_order')  # Redirect on failure
+
+        if not add_order_to_database(order_data):  
+            flash("An error occurred while saving your order. Please try again.", "error")  
+            return redirect('/new_order')  
         else:
+            flash("Order placed successfully!", "success")
             return redirect('/')
     else:
         supermarkets = get_supermarkets()
