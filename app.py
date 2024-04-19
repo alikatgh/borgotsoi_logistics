@@ -67,17 +67,18 @@ def add_order_to_database(order_data):
     try:
         with sqlite3.connect(db_path) as conn:
             cursor = conn.cursor()
+            print("Order data received:", order_data)  # Place the line here
             cursor.execute(
                 "INSERT INTO orders (supermarket_id, items, order_date, delivery_date, delivery_status) VALUES (?, ?, ?, ?, ?)",
-                (order_data['supermarket_id'], order_data['items'], order_data['order_date'], order_data['delivery_date'], 'Pending') # Add 'Pending' as initial status 
+                (order_data['supermarket_id'], order_data['items'], order_data['order_date'], order_data['delivery_date'], 'Pending') 
             )
             conn.commit()
     except sqlite3.Error as e:
-        flash(f"Database error: {e}", "error")  # Flash error message
-        return False  # Indicate failure
+        flash(f"Database error: {e}", "error") 
+        return False 
     else:
         flash("Order placed successfully!", "success")
-        return True  # Indicate success
+        return True 
 
 def get_supermarkets():
     db_path = os.path.abspath('logistics.db')
@@ -139,6 +140,7 @@ def view_deliveries():
         cursor = conn.cursor()
         cursor.execute("SELECT order_id, supermarkets.name, order_date, delivery_date, delivery_status FROM orders JOIN supermarkets ON orders.supermarket_id = supermarkets.supermarket_id")
         orders = cursor.fetchall()
+    print("Orders fetched from database:", orders)  # Add this line
     return render_template('deliveries.html', orders=orders)
 
 if __name__ == '__main__':
