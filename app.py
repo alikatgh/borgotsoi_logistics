@@ -6,6 +6,7 @@ import datetime
 from flask_login import LoginManager, UserMixin, login_user, logout_user
 from werkzeug.security import generate_password_hash, check_password_hash # For password handling
 from config import SECRET_KEY  # Import SECRET_KEY from config.py
+from flask import jsonify  # Import for creating JSON responses
 
 app = Flask(__name__, static_folder='templates/static') 
 app.config['SECRET_KEY'] = SECRET_KEY  # Replace with a secure key
@@ -74,7 +75,7 @@ def add_order_to_database(order_data):
                 "INSERT INTO orders (supermarket_id, items, order_date, delivery_date, delivery_status) VALUES (?, ?, ?, ?, ?)",
                 (order_data['supermarket_id'], order_data['items'], order_data['order_date'], order_data['delivery_date'], 'Pending') 
             )
-            conn.commit()  
+            conn.commit()
             print("Order Saved to Database") 
     except sqlite3.Error as e:
         print(f"Database error: {e}") 
@@ -150,6 +151,24 @@ def view_deliveries():
         orders = cursor.fetchall()
     print("Orders fetched from database:", orders)  # Add this line
     return render_template('deliveries.html', orders=orders)
+
+from flask import jsonify  # Import for creating JSON responses
+
+@app.route('/api/supermarkets')
+def get_supermarkets_api():
+    db_path = os.path.abspath('logistics.db')
+
+    with sqlite3.connect(db_path) as conn:
+        cursor = conn.cursor()
+        cursor.execute("SELECT supermarket_id, name FROM supermarkets")
+        supermarkets = cursor.fetchall()
+
+    # Convert to a list of dictionaries for easy JSON conversion
+    supermarket_list = [
+        {"id": supermarket[0], "name": supermarket[1]} for supermarket in supermarkets
+    ]
+    return jsonify(supermarket_list)  # Return a JSON response
+
 
 if __name__ == '__main__':
     app.run(debug=True) 
