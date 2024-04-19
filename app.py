@@ -7,7 +7,7 @@ from flask_login import LoginManager, UserMixin, login_user, logout_user
 from werkzeug.security import generate_password_hash, check_password_hash # For password handling
 from config import SECRET_KEY  # Import SECRET_KEY from config.py
 
-app = Flask(__name__)
+app = Flask(__name__, static_folder='templates/static') 
 app.config['SECRET_KEY'] = SECRET_KEY  # Replace with a secure key
 
 # ... your database functions
