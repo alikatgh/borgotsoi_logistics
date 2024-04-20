@@ -55,31 +55,37 @@ def load_user(user_id):
 
 def get_recent_orders():
     db_path = os.path.abspath('logistics.db')
+    print('Database path:', db_path)  # Check the path
 
     with sqlite3.connect(db_path) as conn:
         cursor = conn.cursor()
-        cursor.execute("SELECT order_id, supermarkets.name, order_date FROM orders JOIN supermarkets ON orders.supermarket_id = supermarkets.supermarket_id ORDER BY order_date DESC LIMIT 10")
+        query = "SELECT order_id, supermarkets.name, order_date FROM orders JOIN supermarkets ON orders.supermarket_id = supermarkets.supermarket_id ORDER BY order_date DESC LIMIT 10"
+        print('Executing query:', query)  # Show the query
+        cursor.execute(query)
         recent_orders = cursor.fetchall()
+        print('Orders fetched:', recent_orders)  # Did you get results?
     return recent_orders
+
 
 def add_order_to_database(order_data):
     print("add_order_to_database function started")
     db_path = os.path.abspath('logistics.db')
+    print("Database path:", db_path)  # Check if the path is correct
 
     try:
         with sqlite3.connect(db_path) as conn:
             cursor = conn.cursor()
             print("Order data received:", order_data) 
-            print("Executing SQL query with data:", order_data)  # Added for visibility
+            print("Executing SQL query with data:", order_data) # Double check the data
             cursor.execute(
                 "INSERT INTO orders (supermarket_id, items, order_date, delivery_date, delivery_status) VALUES (?, ?, ?, ?, ?)",
                 (order_data['supermarket_id'], order_data['items'], order_data['order_date'], order_data['delivery_date'], 'Pending') 
             )
             conn.commit()
-            print("Order Saved to Database") 
+            print("Order Saved to Database") # Did the commit go through? 
     except sqlite3.Error as e:
-        print(f"Database error: {e}") 
-        flash(f"Database error: {e}", "error") 
+        print(f"Database error: {e}")
+        flash(f"Database error: {e}", "error")
         return False 
     else:
         flash("Order placed successfully!", "success")
