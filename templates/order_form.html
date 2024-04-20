@@ -1,55 +1,39 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <title>New Order</title>
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <link rel="stylesheet" href="{{ url_for('static', filename='main.css') }}">
-    </head>
+    <head>
+        <title>New Order</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="{{ url_for('static', filename='main.css') }}">
+    </head>
 <body>
-    <h1>Place New Order</h1>
-    <form method="POST">
-        <label for="supermarket">Supermarket:</label>
-        <select name="supermarket_id" id="supermarket">
-            {% for supermarket in supermarkets %}
-            <option value="{{ supermarket[0] }}">{{ supermarket[1] }}</option>
-            {% endfor %}
-        </select>
+    <h1>Place New Order</h1>
+    <form method="POST">
+        <label for="supermarket">Supermarket:</label>
+        <select name="supermarket_id" id="supermarket">
+            {% for supermarket in supermarkets %}
+            <option value="{{ supermarket[0] }}">{{ supermarket[1] }}</option>
+            {% endfor %}
+        </select>
 
-        <label for="order_date">Order Date:</label>
-        <input type="date" name="order_date" id="order_date">
+        <label for="order_date">Order Date:</label>
+        <input type="date" name="order_date" id="order_date">
 
-        <button type="submit">Submit Order</button>
-    </form>
+        <button type="submit">Submit Order</button>
+    </form>
 <script>
-    fetch('/api/supermarkets')
-        .then(response => response.json())
-        .then(supermarkets => {
-            // Store supermarkets for later use
-            const supermarketMap = {};
-            for (const supermarket of supermarkets) {
-                supermarketMap[supermarket.id] = supermarket.name;
-            }
-    
-            // Assuming you are populating orders data separately
-            populateOrdersTable(orders, supermarketMap);  
-        })
-        .catch(error => console.error('Error fetching supermarkets:', error));
-    
-    // A function to populate your orders table
-    function populateOrdersTable(orders, supermarketMap) {
-        const ordersTableBody = document.getElementById('orders-table-body');
-    
-        for (const order of orders) {
-            const row = ordersTableBody.insertRow();
-            const orderIdCell = row.insertCell();
-            const supermarketCell = row.insertCell();
-            const orderDateCell = row.insertCell();
-    
-            orderIdCell.textContent = order.order_id;
-            supermarketCell.textContent = supermarketMap[order.supermarket_id];  
-            orderDateCell.textContent = order.order_date;
-        }
-    }
-    </script>
+    fetch('../supermarkets/supermarkets.json' // Assuming an API endpoint
+        .then(response => response.json())
+        .then(supermarkets => {
+            const selectElement = document.getElementById('supermarket');
+
+            supermarkets.forEach(supermarket => {
+                const option = document.createElement('option');
+                option.value = supermarket.id; 
+                option.text = supermarket.name;
+                selectElement.appendChild(option);
+            });
+        })
+        .catch(error => console.error('Error fetching supermarkets:', error));
+  </script>
 </body>
 </html>
