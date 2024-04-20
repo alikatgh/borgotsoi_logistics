@@ -89,7 +89,7 @@ def add_order_to_database(order_data):
         return False 
     else:
         flash("Order placed successfully!", "success")
-        return True 
+        return True  
 
 def get_supermarkets():
     db_path = os.path.abspath('logistics.db')

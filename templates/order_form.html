@@ -7,7 +7,9 @@
     </head>
 <body>
     <h1>Place New Order</h1>
+
     <form method="POST">
+
         <label for="supermarket">Supermarket:</label>
         <select name="supermarket_id" id="supermarket">
             {% for supermarket in supermarkets %}
@@ -16,12 +18,19 @@
         </select>
 
         <label for="order_date">Order Date:</label>
-        <input type="date" name="order_date" id="order_date">
+        <input type="date" name="order_date" id="order_date" required> 
+
+        <label for="items">Items:</label>
+        <textarea name="items" id="items" required></textarea> 
+
+        <label for="delivery_date">Delivery Date:</label>
+        <input type="date" name="delivery_date" id="delivery_date" required> 
 
         <button type="submit">Submit Order</button>
     </form>
+
 <script>
-    fetch('../supermarkets/supermarkets.json' // Assuming an API endpoint
+    fetch('/api/supermarkets') // Update the fetch endpoint if needed
         .then(response => response.json())
         .then(supermarkets => {
             const selectElement = document.getElementById('supermarket');
