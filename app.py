@@ -59,7 +59,10 @@ def get_recent_orders():
 
     with sqlite3.connect(db_path) as conn:
         cursor = conn.cursor()
-        query = "SELECT order_id, supermarkets.name, order_date FROM orders JOIN supermarkets ON orders.supermarket_id = supermarkets.supermarket_id ORDER BY order_date DESC LIMIT 10"
+        # in case you want get back to order date
+        # query = "SELECT order_id, supermarkets.name, order_date FROM orders JOIN supermarkets ON orders.supermarket_id = supermarkets.supermarket_id ORDER BY order_date DESC LIMIT 10"
+        # unless, use this
+        query = "SELECT order_id, supermarkets.name, delivery_date FROM orders JOIN supermarkets ON orders.supermarket_id = supermarkets.supermarket_id ORDER BY order_date DESC LIMIT 10"
         print('Executing query:', query)  # Show the query
         cursor.execute(query)
         recent_orders = cursor.fetchall()
@@ -109,7 +112,8 @@ def index():
 def new_order():
     if request.method == 'POST':
         # Get form data
-        order_data = request.form
+        order_data = request.form.to_dict()
+        del order_data['order_date'] 
 
         # Check for required fields
         if not all(field in order_data for field in ('supermarket_id', 'items', 'order_date', 'delivery_date')):

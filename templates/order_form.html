@@ -6,7 +6,8 @@
         <link rel="stylesheet" href="{{ url_for('static', filename='main.css') }}">
     </head>
 <body>
-    <h1>Place New Order</h1>
+<div class="content-container">
+        <h1>Place New Order</h1>
 
     <form method="POST">
 
@@ -17,8 +18,8 @@
             {% endfor %}
         </select>
 
-        <label for="order_date">Order Date:</label>
-        <input type="date" name="order_date" id="order_date" required> 
+<!--         <label for="order_date">Order Date:</label>
+        <input type="date" name="order_date" id="order_date" required>  -->
 
         <label for="items">Items:</label>
         <textarea name="items" id="items" required></textarea> 
@@ -29,6 +30,7 @@
 
         <button type="submit">Submit Order</button>
     </form>
+</div>
 
 <script>
     fetch('/api/supermarkets') // Update the fetch endpoint if needed

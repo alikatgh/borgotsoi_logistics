@@ -1,3 +1,7 @@
 # Ignore compiled Python files
 __pycache__/
 *.pyc
+folderStructure.txt
+initial_formulast.txt
+listOfFiles.txt
+tree.txt 

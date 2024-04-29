@@ -4,6 +4,15 @@ body {
     font-size: 16px; /* Establish a base font size */
 }
 
+.content-container {
+    max-width: 800px; /* Limit content width */
+    margin: 20px auto;  /* Center content */
+    padding: 25px; 
+    background-color: #f8f8f8; /* Subtle background */
+    border-radius: 5px;
+    box-shadow: 0 2px 5px rgba(0,0,0, 0.1); /* Subtle shadow */
+}
+
 tbody tr {
     background-color: rgb(255, 255, 255); 
 }
@@ -54,10 +63,24 @@ button[type="submit"]:hover {
     background-color: #0056b3; /* Slightly darker on hover */
 }
 
-table {
+table { 
+    margin: 20px auto;
     width: 100%; 
     border-collapse: collapse;
+    background-color: #f0f0f0;  
 }
+
+/* Optional: Adjust font size */
+table td {
+    font-size: 0.9em;  /* Slightly smaller */ 
+}
+
+td, th {
+    border: 1px solid #ddd; 
+    padding: 5px; /* Reduce cell padding slightly */
+    text-align: left;  /* Or 'center' if preferred */
+}
+
 
 /* Table Styles */
 #orders-table { /* Target the table using its ID */
@@ -75,11 +98,6 @@ table {
 
 #orders-table tbody tr {
     background-color: rgb(233, 250, 255);
-}
-
-td, th {
-    border: 1px solid #ddd; 
-    padding: 8px;
 }
 
 label {
