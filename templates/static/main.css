@@ -1,6 +1,57 @@
 /* General Styles */
 body {
-    font-family: Arial, sans-serif;
+    font-family: Arial, sans-serif; 
+    font-size: 16px; /* Establish a base font size */
+}
+
+tbody tr {
+    background-color: rgb(255, 255, 255); 
+}
+  
+input[type="text"], input[type="date"], textarea, select {
+    width: 100%; 
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    box-sizing: border-box; /* Prevents padding from expanding element size */
+}
+
+form {
+    background-color: #f5f5f5; /* Light background */
+    padding: 20px;
+    border-radius: 5px;  /* Slightly rounded corners */
+    box-shadow: 0 2px 5px rgba(0,0,0, 0.1); /* Subtle shadow for depth */
+}
+
+button[type="submit"] {
+    background-color: #007bff; /* Example color */
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    text-align: center;
+    cursor: pointer;
+    transition: background-color 0.3s ease; 
+}
+
+button[type="submit"]:hover {
+    background-color: #0056b3; /* Slightly darker blue on hover */
+}
+
+.button-link {
+    background-color: #007bff; /* Same color as your other button */
+    color: white;
+    padding: 10px 20px;
+    text-decoration: none;  /* Remove underline */
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease; /* Same transition */
+}
+
+.button-link:hover {
+    background-color: #0056b3; /* Slightly darker on hover */
 }
 
 table {
@@ -8,9 +59,32 @@ table {
     border-collapse: collapse;
 }
 
+/* Table Styles */
+#orders-table { /* Target the table using its ID */
+    margin: 20px auto;
+    width: 100%; 
+    border-collapse: collapse;
+    background-color: #f0f0f0;  /* Example */
+}
+
+#orders-table td, 
+#orders-table th { 
+    border: 1px solid #ddd; 
+    padding: 8px; 
+}
+
+#orders-table tbody tr {
+    background-color: rgb(233, 250, 255);
+}
+
 td, th {
     border: 1px solid #ddd; 
     padding: 8px;
+}
+
+label {
+    display: block; /* Makes labels stack nicely */
+    margin-bottom: 5px; 
 }
 
 /* Responsive Styles - Using Media Queries */
@@ -34,9 +108,8 @@ td, th {
     }
 
     table td:before { 
-        content: attr(data-label); /* Use data-label attribute to create labels */
-        font-weight: bold;
-        display: inline-block;
-        width: 30%; /* Adjust as needed */
+        display: block;  /* Labels on their own line */
+        margin-bottom: 5px;  /* Space between label and value */
+        text-align: left; /* Align labels to the left */
     }
 }

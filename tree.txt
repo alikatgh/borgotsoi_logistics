@@ -1,9 +1,12 @@
 Folder PATH listing
 Volume serial number is 96FD-E8DF
 C:.
+│   .gitignore
 │   app.py
+│   built_in_funcs.py
 │   config.py
 │   folderStructure.txt
+│   import_js_to_db.py
 │   initial_formulas.txt
 │   LICENSE
 │   listOfFiles.txt
@@ -13,11 +16,13 @@ C:.
 │   requirements.txt
 │   roadmap.md
 │   setup_database.py
+│   supermarkets.csv
 │   tree.txt
 │   your_database.db
 │   
 ├───supermarkets
 │   │   jsonify.ipynb
+│   │   products.json
 │   │   supermarkets.json
 │   │   supermarkets.xlsx
 │   │   
@@ -35,7 +40,6 @@ C:.
 │           script.js
 │           
 └───__pycache__
-        app.cpython-310.pyc
         app.cpython-311.pyc
         config.cpython-311.pyc
         
