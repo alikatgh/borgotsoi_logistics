@@ -71,28 +71,30 @@ def get_recent_orders():
 
 
 def add_order_to_database(order_data):
-    print("add_order_to_database function started")
-    db_path = os.path.abspath('logistics.db')
-    print("Database path:", db_path)  # Check if the path is correct
+    db_path = os.path.abspath('logistics.db')  # Ensure correct path
 
     try:
         with sqlite3.connect(db_path) as conn:
             cursor = conn.cursor()
-            print("Order data received:", order_data) 
-            print("Executing SQL query with data:", order_data) # Double check the data
+
+            # Validate supermarket_id (if desired)
+            cursor.execute("SELECT COUNT(*) FROM supermarkets WHERE supermarket_id = ?", (order_data['supermarket_id'],))
+            if cursor.fetchone()[0] == 0:
+                flash('Invalid supermarket ID', 'error')
+                return False
+
             cursor.execute(
-                "INSERT INTO orders (supermarket_id, items, order_date, delivery_date, delivery_status) VALUES (?, ?, ?, ?, ?)",
-                (order_data['supermarket_id'], order_data['items'], order_data['order_date'], order_data['delivery_date'], 'Pending') 
+                "INSERT INTO orders (supermarket_id, items, delivery_date, delivery_status) VALUES (?, ?, ?, ?)",
+                (order_data['supermarket_id'], order_data['items'], order_data['delivery_date'], 'Pending')
             )
             conn.commit()
-            print("Order Saved to Database") # Did the commit go through? 
+            flash("Order placed successfully!", "success")
+            return True
+
     except sqlite3.Error as e:
         print(f"Database error: {e}")
-        flash(f"Database error: {e}", "error")
+        flash(f"An error occurred: {e}", "error")  # More informative error messages
         return False 
-    else:
-        flash("Order placed successfully!", "success")
-        return True  
 
 def get_supermarkets():
     db_path = os.path.abspath('logistics.db')
@@ -112,9 +114,9 @@ def index():
 def new_order():
     if request.method == 'POST':
         # Get form data
-        order_data = request.form.to_dict()
-        del order_data['order_date'] 
-
+        # order_data = request.form.to_dict()
+        # del order_data['order_date'] 
+        order_data = request.form
         # Check for required fields
         if not all(field in order_data for field in ('supermarket_id', 'items', 'order_date', 'delivery_date')):
             flash("Please fill in all required fields.", "error")
