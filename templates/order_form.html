@@ -24,7 +24,8 @@
         <textarea name="items" id="items" required></textarea> 
 
         <label for="delivery_date">Delivery Date:</label>
-        <input type="date" name="delivery_date" id="delivery_date" required> 
+        <input type="date" name
+="delivery_date" id="delivery_date" required> 
 
         <button type="submit">Submit Order</button>
     </form>
@@ -39,7 +40,7 @@
                 const option = document.createElement('option');
                 option.value = supermarket.id; 
                 option.text = supermarket.name;
-                selectElement.appendChild(option);
+                selectElement.appendChild(option);
             });
         })
         .catch(error => console.error('Error fetching supermarkets:', error));
